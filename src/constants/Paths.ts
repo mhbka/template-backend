@@ -14,7 +14,11 @@ export default {
   User: {
     Base: '/user',
     Info: '/info',
-    UpdateProfile: '/updateprofile'
+    UpdateProfile: '/updateProfile',
+    UpdateEmail: '/updateEmail',
+    VerifyEmail: '/verifyEmail',
+    UpdatePassword: '/updatePassword',
+    ResetPassWithEmail: '/resetPassWithEmail'
   },
   
 } as const;

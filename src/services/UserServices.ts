@@ -24,6 +24,11 @@ async function updateUserProfile(displayName?: string, photoURL?: string){
 }
 
 
+/** Updates a user's email. */
+async function updateEmail(email: string){
+  updateEmail(email);
+}
+
 // **** Export default **** //
 export default {
     getUser, updateUserProfile
