@@ -18,17 +18,18 @@ async function updateProfile(req: Request, res: Response) {
     let displayName: string = '', photoURL: string = '';
 
     if (req.body.photoURL) photoURL = req.body.photoURL; 
-    if (req.body.displayName) { 
-        if (req.body.displayName.trim() !== '' && !/\s/.test(req.body.displayName)) displayName = req.body.displayName; //ensure displayName has no whitespaces
+    if (req.body.displayName) {
+        //ensure displayName has no whitespaces
+        if (req.body.displayName.trim() !== '' && !/\s/.test(req.body.displayName)) displayName = req.body.displayName;
         else return res.status(HttpStatusCodes.BAD_REQUEST).json({error: 'Display name must not have whitespaces.'}).end();
-    } 
-    
+    }
+          
     await UserServices.updateUserProfile(displayName, photoURL)
     .then(() => {
         return res.status(HttpStatusCodes.OK).end();
     })
     .catch((error) => {
-        return res.status(HttpStatusCodes.INTERNAL_SERVER_ERROR).json({error: error.code}).end();
+        return assignError(error.code, res);
     })
 }
 
@@ -39,19 +40,7 @@ async function updateEmail(req: Request, res: Response) {
         return res.status(HttpStatusCodes.BAD_REQUEST).json({error: 'No email provided.'}).end();
     }
 
-    await UserServices.updateEmail(req.body.email)
-    .then(() => {
-        return res.status(HttpStatusCodes.OK).end();
-    })
-    .catch((error) => {
-        return assignError(error.code, res);
-    })
-}
-
-
-/** Verify the user's email. */
-async function verifyEmail(req: Request, res: Response) {
-    await UserServices.verifyEmail()
+    await UserServices.updateUserEmail(req.body.email)
     .then(() => {
         return res.status(HttpStatusCodes.OK).end();
     })
@@ -67,19 +56,7 @@ async function updatePassword(req: Request, res: Response) {
         return res.status(HttpStatusCodes.BAD_REQUEST).json({error: 'No email provided.'}).end();
     }
 
-    await UserServices.updateEmail(req.body.password)
-    .then(() => {
-        return res.status(HttpStatusCodes.OK).end();
-    })
-    .catch((error) => {
-        return assignError(error.code, res);
-    })
-}
-
-
-/** Send a password reset email. */
-async function sendPasswordResetEmail(req: Request, res: Response) {
-    await UserServices.sendPasswordResetEmail()
+    await UserServices.updateUserEmail(req.body.password)
     .then(() => {
         return res.status(HttpStatusCodes.OK).end();
     })
@@ -91,5 +68,8 @@ async function sendPasswordResetEmail(req: Request, res: Response) {
 
 // **** Export default **** //
 export default {
-    getUser, updateProfile, updateEmail, verifyEmail, updatePassword, sendPasswordResetEmail
+    getUser, 
+    updateProfile, 
+    updateEmail, 
+    updatePassword,
 } as const;

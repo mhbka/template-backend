@@ -84,7 +84,10 @@ Congrats! You have added a new route.
 POST `/register` - Register a new account with *email* and *password*  
 POST `/login` - Login to the account with *email* and *password*  
 GET `/logout` - Log out of the logged-in account
+POST `/verifyEmail` - Send a verification email for the logged-in account
 
 ### User - `/user`
 GET `/info` - Get the account info  
-POST `/updateprofile` - Update the *displayName* and/or *photoURL*
+POST `/updateProfile` - Update the *displayName* and/or *photoURL*
+POST `/updateEmail` - Update the *email*
+POST - `/updatePassword` - Update the *password*

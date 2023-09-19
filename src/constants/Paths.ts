@@ -9,6 +9,9 @@ export default {
     Register: '/register',
     Login: '/login',
     Logout: '/logout',
+    VerifyEmail: '/verifyEmail',
+    SendPasswordResetEmail: '/sendPasswordResetEmail',
+    ResetPassWithCode: '/resetPassWithCode'
   },
 
   User: {
@@ -16,9 +19,7 @@ export default {
     Info: '/info',
     UpdateProfile: '/updateProfile',
     UpdateEmail: '/updateEmail',
-    VerifyEmail: '/verifyEmail',
     UpdatePassword: '/updatePassword',
-    ResetPassWithEmail: '/resetPassWithEmail'
   },
   
 } as const;

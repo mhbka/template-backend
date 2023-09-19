@@ -51,9 +51,59 @@ async function logout(_: Request, res: Response) {
 }
 
 
+/** Verify the user's email. */
+async function verifyEmail(req: Request, res: Response) {
+    await AuthServices.verifyUserEmail()
+    .then(() => {
+        return res.status(HttpStatusCodes.OK).end();
+    })
+    .catch((error) => {
+        return assignError(error.code, res);
+    })
+}
+
+
+/** Send a password reset email. */
+async function sendPasswordResetEmail(req: Request, res: Response) {
+    if (!req.body.email){
+        return res.status(HttpStatusCodes.BAD_REQUEST).json({error: 'No email provided.'}).end();
+    }
+    await AuthServices.sendUserPasswordResetEmail(req.body.email)
+    .then(() => {
+        return res.status(HttpStatusCodes.OK).end();
+    })
+    .catch((error) => {
+        return assignError(error.code, res);
+    })
+}
+
+
+/** Reset an account password with a reset code. */
+async function resetPasswordWithCode(req: Request, res: Response) {
+    let resetCode: string = '', newPassword: string = '';
+    try {
+        [resetCode, newPassword] = req.body;
+    }
+    catch {
+        return res.status(HttpStatusCodes.BAD_REQUEST).json({error: 'Missing resetCode and/or newPassword.'}).end();
+    }
+
+    await AuthServices.resetPasswordWithCode(resetCode, newPassword)
+    .then(() => {
+        return res.status(HttpStatusCodes.OK).end();
+    })
+    .catch((error) => {
+        return assignError(error.code, res);
+    })
+}
+
+
 // **** Export default **** //
 export default {
-  login,
-  register,
-  logout,
+    login,
+    register,
+    logout,
+    verifyEmail,
+    sendPasswordResetEmail,
+    resetPasswordWithCode
 } as const;

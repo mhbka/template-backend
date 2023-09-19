@@ -1,5 +1,13 @@
 import { getFirebaseAuth } from "./FirebaseSingleton";
-import { updateProfile, onAuthStateChanged, User } from "firebase/auth";
+import { 
+  updateProfile, 
+  updateEmail, 
+  updatePassword, 
+  sendPasswordResetEmail, 
+  sendEmailVerification, 
+  confirmPasswordReset,
+  onAuthStateChanged, 
+  User } from "firebase/auth";
 import { Request, Response } from "express";
 
 
@@ -17,19 +25,26 @@ async function getUser() {
     });
 }
 
-
 /** Updates a user's displayName and/or photoURL. */
 async function updateUserProfile(displayName?: string, photoURL?: string){
-    updateProfile(firebaseAuth.currentUser!, {displayName, photoURL});
+  updateProfile(firebaseAuth.currentUser!, {displayName, photoURL});
 }
-
 
 /** Updates a user's email. */
-async function updateEmail(email: string){
-  updateEmail(email);
+async function updateUserEmail(email: string){
+  updateEmail(firebaseAuth.currentUser!, email);
 }
+
+/** Updates a user's password. */
+async function updateUserPassword(password: string){
+  updatePassword(firebaseAuth.currentUser!, password);
+}
+
 
 // **** Export default **** //
 export default {
-    getUser, updateUserProfile
+    getUser, 
+    updateUserProfile,
+    updateUserEmail,
+    updateUserPassword,
 } as const;
